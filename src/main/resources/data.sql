@@ -1,3 +1,13 @@
+INSERT INTO _USERS (username, password, email, full_name, phone_number, role)
+VALUES (
+           'jogoat@gmail.com', -- username
+           '$2a$10$8mNAauzYAJbatkHAlmgfzOb.0biD5EDEqGQSYjRQJE5nUsLHzAxuq', -- password (hashed)
+           'jogoat@gmail.com', -- email
+           'Jogoat', -- fullName (placeholder)
+           '1234567890', -- phoneNumber (placeholder)
+           'USER' -- role (default role)
+       );
+
 INSERT INTO PRODUCT (name, animal_type, food_type, price, weight, is_available, code, quantity, description, image_url)
 VALUES
     ('Dog Biscuits',
