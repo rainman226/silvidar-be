@@ -8,6 +8,16 @@ VALUES (
            'USER' -- role (default role)
        );
 
+INSERT INTO _USERS (username, password, email, full_name, phone_number, role)
+VALUES (
+           'admin@yahoo.com', -- username
+           '$2a$10$BE0o4y9VgQX46ViwST7wpOBqRqLaIJVOPSUUbRzdq13rQ4m4TgU3C', -- password (hashed)
+           'admin@yahoo.com', -- email
+           'Admin User', -- fullName (placeholder)
+           '0987654321', -- phoneNumber (placeholder)
+           'ADMIN' -- role (set to ADMIN)
+       );
+
 INSERT INTO PRODUCT (name, animal_type, food_type, price, weight, is_available, code, quantity, description, image_url)
 VALUES
     ('Dog Biscuits',
