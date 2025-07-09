@@ -56,3 +56,21 @@ VALUES
     ('Ukrainian Sac Verde Junior', 'CAINE_JUNIOR', 'Dry Food', 19.99, 10, TRUE, 'USVJ10KG007', 35, 'Affordable Ukrainian junior dog food in a green bag.', 'https://cdn.dribbble.com/userupload/11692145/file/original-aac929bed542863f1660afbfcabca888.jpg'),
 
     ('Versele Laga Classic Puppy', 'MINI_PUPPY', 'Dry Food', 27.99, 10, TRUE, 'VLCPUP10KG008', 45, 'Classic puppy food for mini breeds.', 'https://cdn.dribbble.com/userupload/11692145/file/original-aac929bed542863f1660afbfcabca888.jpg');
+
+-- Insert orders
+INSERT INTO orders (oid, user_id, order_date, order_status, pick_up_deadline, total_price)
+VALUES
+    (1, 1, CURRENT_TIMESTAMP, 'CONFIRMED', CURRENT_TIMESTAMP + INTERVAL '3' DAY, 57.47), -- 2x15.99 + 25.49
+    (2, 1, CURRENT_TIMESTAMP, 'CONFIRMED', CURRENT_TIMESTAMP + INTERVAL '5' DAY, 184.96); -- 1x34.99 + 3x49.99
+
+-- Insert order items for Order 1
+INSERT INTO order_item (id, order_id, product_id, quantity, unit_price)
+VALUES
+    (1, 1, 1, 2, 15.99),  -- Dog Biscuits
+    (2, 1, 2, 1, 25.49);  -- Cat Wet Food
+
+-- Insert order items for Order 2
+INSERT INTO order_item (id, order_id, product_id, quantity, unit_price)
+VALUES
+    (3, 2, 8, 1, 34.99),  -- Versele Laga Opti-Life
+    (4, 2, 9, 3, 49.99);  -- Vincent Uno Junior

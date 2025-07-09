@@ -23,3 +23,25 @@ CREATE TABLE PRODUCT (
                          description TEXT,
                          image_url VARCHAR(2083) -- Assuming a typical URL length
 );
+
+-- ORDER table
+CREATE TABLE ORDERS (
+                        oid BIGINT AUTO_INCREMENT PRIMARY KEY,
+                        user_id BIGINT,
+                        order_date TIMESTAMP,
+                        order_status VARCHAR(255),
+                        pick_up_deadline TIMESTAMP,
+                        total_price REAL
+                        --CONSTRAINT fk_order_user FOREIGN KEY (user_id) REFERENCES user(id)
+);
+
+-- ORDER_ITEM table
+CREATE TABLE ORDER_ITEM (
+                            id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                            order_id BIGINT,
+                            product_id BIGINT,
+                            quantity INT,
+                            unit_price REAL
+                            --CONSTRAINT fk_order_item_order FOREIGN KEY (order_id) REFERENCES orders(oid),
+                            --CONSTRAINT fk_order_item_product FOREIGN KEY (product_id) REFERENCES product(id)
+);
