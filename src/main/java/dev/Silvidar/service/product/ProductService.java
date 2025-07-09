@@ -17,15 +17,15 @@ public class ProductService implements IProductService {
 
 
     @Override
-    public List<Product> getProductByField(Long id,
-                                           String name,
-                                           AnimalType animalType,
-                                           String foodType,
-                                           Float price,
-                                           Integer weight,
-                                           boolean isAvailable,
-                                           String code,
-                                           Integer quantity) {
+    public List<Product> searchForProduct(Long id,
+                                          String name,
+                                          AnimalType animalType,
+                                          String foodType,
+                                          Float price,
+                                          Integer weight,
+                                          boolean isAvailable,
+                                          String code,
+                                          Integer quantity) {
         Specification<Product> spec = Specification.where(null);
         if(id != null) {
             spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("id"), id));
@@ -70,6 +70,11 @@ public class ProductService implements IProductService {
             System.out.println("Product: " + product);
         }
         return products;
+    }
+
+    @Override
+    public Product getProductById(long id) {
+        return productRepository.findById(id).orElse(null);
     }
 
     @Override
