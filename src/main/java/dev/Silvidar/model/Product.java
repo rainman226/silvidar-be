@@ -1,8 +1,10 @@
 package dev.Silvidar.model;
 
 import dev.Silvidar.enums.AnimalType;
+import dev.Silvidar.enums.LifeStage;
 import jakarta.persistence.*;
 
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -18,11 +20,16 @@ public class Product {
     @Enumerated(EnumType.STRING)
     private AnimalType animalType;
 
+    @Enumerated(EnumType.STRING)
+    private LifeStage lifeStage;
+
     private String foodType;
+
+    private String flavour;
 
     private float price;
 
-    private int weight;
+    private float weight;
 
     private boolean isAvailable;
 
@@ -32,23 +39,34 @@ public class Product {
 
     private String description;
 
+    private String nutritionalInformation;
+
     private String imageUrl;
 
-    public Product(Long id, String name, AnimalType animalType, String foodType, float price, int weight, boolean isAvailable, String code, int quantity, String description, String imageUrl) {
+    private Date createdAt;
+
+    private Date updatedAt;
+
+    public Product() {
+    }
+
+    public Product(Long id, String name, AnimalType animalType, LifeStage lifeStage, String foodType, String flavour, float price, float weight, boolean isAvailable, String code, int quantity, String description, String nutritionalInformation, String imageUrl, Date createdAt, Date updatedAt) {
         this.id = id;
         this.name = name;
         this.animalType = animalType;
+        this.lifeStage = lifeStage;
         this.foodType = foodType;
+        this.flavour = flavour;
         this.price = price;
         this.weight = weight;
         this.isAvailable = isAvailable;
         this.code = code;
         this.quantity = quantity;
         this.description = description;
+        this.nutritionalInformation = nutritionalInformation;
         this.imageUrl = imageUrl;
-    }
-
-    public Product() {
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public Long getId() {
@@ -75,12 +93,28 @@ public class Product {
         this.animalType = animalType;
     }
 
+    public LifeStage getLifeStage() {
+        return lifeStage;
+    }
+
+    public void setLifeStage(LifeStage lifeStage) {
+        this.lifeStage = lifeStage;
+    }
+
     public String getFoodType() {
         return foodType;
     }
 
     public void setFoodType(String foodType) {
         this.foodType = foodType;
+    }
+
+    public String getFlavour() {
+        return flavour;
+    }
+
+    public void setFlavour(String flavour) {
+        this.flavour = flavour;
     }
 
     public float getPrice() {
@@ -91,11 +125,11 @@ public class Product {
         this.price = price;
     }
 
-    public int getWeight() {
+    public float getWeight() {
         return weight;
     }
 
-    public void setWeight(int weight) {
+    public void setWeight(float weight) {
         this.weight = weight;
     }
 
@@ -131,6 +165,14 @@ public class Product {
         this.description = description;
     }
 
+    public String getNutritionalInformation() {
+        return nutritionalInformation;
+    }
+
+    public void setNutritionalInformation(String nutritionalInformation) {
+        this.nutritionalInformation = nutritionalInformation;
+    }
+
     public String getImageUrl() {
         return imageUrl;
     }
@@ -139,33 +181,31 @@ public class Product {
         this.imageUrl = imageUrl;
     }
 
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return Float.compare(price, product.price) == 0 && weight == product.weight && isAvailable == product.isAvailable && quantity == product.quantity && Objects.equals(id, product.id) && Objects.equals(name, product.name) && animalType == product.animalType && Objects.equals(foodType, product.foodType) && Objects.equals(code, product.code) && Objects.equals(description, product.description) && Objects.equals(imageUrl, product.imageUrl);
+        return Float.compare(price, product.price) == 0 && Float.compare(weight, product.weight) == 0 && isAvailable == product.isAvailable && quantity == product.quantity && Objects.equals(id, product.id) && Objects.equals(name, product.name) && animalType == product.animalType && lifeStage == product.lifeStage && Objects.equals(foodType, product.foodType) && Objects.equals(flavour, product.flavour) && Objects.equals(code, product.code) && Objects.equals(description, product.description) && Objects.equals(nutritionalInformation, product.nutritionalInformation) && Objects.equals(imageUrl, product.imageUrl) && Objects.equals(createdAt, product.createdAt) && Objects.equals(updatedAt, product.updatedAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, animalType, foodType, price, weight, isAvailable, code, quantity, description, imageUrl);
-    }
-
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", animalType=" + animalType +
-                ", foodType='" + foodType + '\'' +
-                ", price=" + price +
-                ", weight=" + weight +
-                ", isAvailable=" + isAvailable +
-                ", code='" + code + '\'' +
-                ", quantity=" + quantity +
-                ", description='" + description + '\'' +
-                ", imageUrl='" + imageUrl + '\'' +
-                '}';
+        return Objects.hash(id, name, animalType, lifeStage, foodType, flavour, price, weight, isAvailable, code, quantity, description, nutritionalInformation, imageUrl, createdAt, updatedAt);
     }
 }
