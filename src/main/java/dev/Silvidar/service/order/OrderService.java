@@ -33,6 +33,12 @@ public class OrderService implements IOrderService{
     }
 
     @Override
+    public List<Order> getUserOrders(int userId) {
+        return orderRepository.findByUser_Id(userId);
+    }
+
+
+    @Override
     public Order createOrder(CreateOrderRequest request) {
         List<OrderItem> items = new ArrayList<>();
         float total = 0;

@@ -8,4 +8,5 @@ import java.util.List;
 public interface IOrderService {
     public List<Order> getAllOrders();
     public Order createOrder(CreateOrderRequest request);
+    public List<Order> getUserOrders(int userId);
 }

@@ -7,6 +7,7 @@ import dev.Silvidar.repository.OrderRepository;
 import dev.Silvidar.service.order.OrderService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,11 +34,25 @@ public class OrderController {
         );
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<List<OrderDTO>> getUserOorders(@PathVariable int id) {
+        // TODO - validate with the JWT token that the user is allowed to access this endpoint
+        List<Order> orders = orderService.getUserOrders(id);
+        if (orders.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(
+                orders.stream()
+                        .map(order -> modelMapper.map(order, OrderDTO.class))
+                        .toList()
+        );
+    }
+
     @PostMapping()
     public ResponseEntity<OrderDTO> createOrder(@RequestBody CreateOrderRequest request) {
         Order order = orderService.createOrder(request);
         if (order == null) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(modelMapper.map(order, OrderDTO.class));
     }
