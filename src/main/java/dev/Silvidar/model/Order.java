@@ -1,5 +1,6 @@
 package dev.Silvidar.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import dev.Silvidar.enums.OrderStatus;
 import jakarta.persistence.*;
@@ -16,7 +17,7 @@ public class Order {
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    // TODO - supress user info that is not needed in the response
+    @JsonIgnoreProperties({"username", "password", "email", "role", "authorities", "accountNonExpired", "accountNonLocked", "credentialsNonExpired", "enabled"})
     private User user;
 
     private LocalDateTime orderDate;

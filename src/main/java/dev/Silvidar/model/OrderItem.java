@@ -12,7 +12,7 @@ public class OrderItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne()
     @JoinColumn(name = "order_id", referencedColumnName = "oid")
     @JsonBackReference
     private Order order;

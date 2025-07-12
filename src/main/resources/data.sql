@@ -118,3 +118,7 @@ INSERT INTO order_item (id, order_id, product_id, quantity, unit_price)
 VALUES
     (3, 2, 8, 1, 34.99),  -- Versele Laga Opti-Life
     (4, 2, 9, 3, 49.99);  -- Vincent Uno Junior
+
+ALTER TABLE orders ALTER COLUMN oid RESTART WITH 100;   -- To be removed after testing
+
+ALTER TABLE order_item ALTER COLUMN id RESTART WITH 100;   -- To be removed after testing
