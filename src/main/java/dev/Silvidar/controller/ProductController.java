@@ -20,8 +20,7 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private ModelMapper modelMapper = new ModelMapper();
 
     @GetMapping("/search")
     public ResponseEntity<List<ProductSearchDTO>> searchProduct(@RequestParam(required = false) Long id,
@@ -39,11 +38,7 @@ public class ProductController {
 
                 // TODO - actually use a Mapper here lmao
                 for (Product product : searchResult) {
-                    ProductSearchDTO productDTO = new ProductSearchDTO(product.getId(),
-                            product.getName(),
-                            product.getAnimalType(),
-                            product.getPrice(),
-                            product.getImageUrl());
+                    ProductSearchDTO productDTO = modelMapper.map(product, ProductSearchDTO.class);
 
                     System.out.println("Product DTO: " + productDTO);
                     productDTOs.add(productDTO);
@@ -63,7 +58,7 @@ public class ProductController {
         return ResponseEntity.ok(product);
     }
 
-    // this won't be used in the future, but it's here for now
+    // TO BE DEPRECATED - use the search endpoint instead
     @GetMapping("/all")
     public ResponseEntity<List<Product>> getAllProducts() {
         List<Product> products = productService.getAllProducts();

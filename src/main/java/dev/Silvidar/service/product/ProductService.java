@@ -31,6 +31,7 @@ public class ProductService implements IProductService {
             spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("id"), id));
         }
 
+        // TODO - update search logic so it search the new fields
         if(name != null) {
             spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), "%" + name.toLowerCase() + "%"));
             System.out.println("am adaugat numele boss");

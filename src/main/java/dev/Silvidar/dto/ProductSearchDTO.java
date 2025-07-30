@@ -1,10 +1,6 @@
 package dev.Silvidar.dto;
 
 import dev.Silvidar.enums.AnimalType;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 
 public class ProductSearchDTO {
@@ -20,6 +16,9 @@ public class ProductSearchDTO {
         this.animalType = animalType;
         this.price = price;
         this.imageUrl = imageUrl;
+    }
+
+    public ProductSearchDTO() {
     }
 
     public Long getId() {
