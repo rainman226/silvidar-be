@@ -1,6 +1,7 @@
 package dev.Silvidar.service.order;
 
 import dev.Silvidar.dto.CreateOrderRequest;
+import dev.Silvidar.dto.UpdateOrderRequest;
 import dev.Silvidar.exceptions.ProductNotFoundException;
 import dev.Silvidar.exceptions.UserNotFoundException;
 import dev.Silvidar.model.Order;
@@ -94,6 +95,41 @@ public class OrderService implements IOrderService{
 
         order.setOrderItems(items);
         order.setTotalPrice(total);
+
+        return orderRepository.save(order);
+    }
+
+    @Transactional
+    @Override
+    public Order updateOrder(Long orderId, UpdateOrderRequest request) {
+        // TODO - validate the request with the JWT token that the user is allowed to access this endpoint
+        // Fetch the order
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found with ID: " + orderId));
+
+        order.setOrderStatus(request.getOrderStatus());
+
+        // Update pickUpDeadline if provided
+        if (request.getPickUpDeadline() != null) {
+            order.setPickUpDeadline(request.getPickUpDeadline());
+        }
+
+        // OrderItem removals
+        if (request.getOrderItemIdsToRemove() != null && !request.getOrderItemIdsToRemove().isEmpty()) {
+            List<OrderItem> itemsToRemove = order.getOrderItems().stream()
+                    .filter(item -> request.getOrderItemIdsToRemove().contains(item.getId()))
+                    .collect(Collectors.toList());
+
+            for (OrderItem item : itemsToRemove) {
+                order.getOrderItems().remove(item);
+            }
+
+            // Recalculate totalPrice
+            float newTotalPrice = order.getOrderItems().stream()
+                    .map(item -> item.getUnitPrice() * item.getQuantity())
+                    .reduce(0f, Float::sum);
+            order.setTotalPrice(newTotalPrice);
+        }
 
         return orderRepository.save(order);
     }

@@ -2,6 +2,7 @@ package dev.Silvidar.controller;
 
 import dev.Silvidar.dto.CreateOrderRequest;
 import dev.Silvidar.dto.OrderDTO;
+import dev.Silvidar.dto.UpdateOrderRequest;
 import dev.Silvidar.model.Order;
 import dev.Silvidar.service.order.OrderService;
 import org.modelmapper.ModelMapper;
@@ -55,5 +56,11 @@ public class OrderController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(modelMapper.map(order, OrderDTO.class));
+    }
+
+    @PutMapping("/{orderId}")
+    public ResponseEntity<OrderDTO> updateOrder(@PathVariable Long orderId, @RequestBody UpdateOrderRequest request) {
+        Order updatedOrder = orderService.updateOrder(orderId, request);
+        return ResponseEntity.ok(modelMapper.map(updatedOrder, OrderDTO.class));
     }
 }

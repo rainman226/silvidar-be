@@ -61,6 +61,8 @@ public class ProductService implements IProductService {
             spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.lessThan(root.get("quantity"), quantity));
         }
 
+        // TODO add max price filter
+
         List<Product> products = productRepository.findAll(spec);
 
         if (products.isEmpty()) {
