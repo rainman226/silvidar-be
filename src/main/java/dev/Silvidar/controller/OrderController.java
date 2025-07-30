@@ -20,6 +20,7 @@ public class OrderController {
 
     private ModelMapper modelMapper = new ModelMapper();
 
+    // TO BE DEPRECATED - use the search endpoint instead
     @GetMapping()
     public ResponseEntity<List<OrderDTO>> getAllOrders() {
         List<Order> orders = orderService.getAllOrders();
@@ -40,7 +41,7 @@ public class OrderController {
         if (orders.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        return ResponseEntity.status(HttpStatus.FOUND).body(
+        return ResponseEntity.status(HttpStatus.OK).body(
                 orders.stream()
                         .map(order -> modelMapper.map(order, OrderDTO.class))
                         .toList()

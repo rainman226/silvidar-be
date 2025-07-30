@@ -9,11 +9,14 @@ import dev.Silvidar.model.Product;
 import dev.Silvidar.repository.OrderRepository;
 import dev.Silvidar.repository.ProductRepository;
 import dev.Silvidar.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderService implements IOrderService{
@@ -39,9 +42,15 @@ public class OrderService implements IOrderService{
 
 
     @Override
+    @Transactional
     public Order createOrder(CreateOrderRequest request) {
         List<OrderItem> items = new ArrayList<>();
         float total = 0;
+
+        // Validate request items
+        if(request.getItems() != null && request.getItems().isEmpty()) {
+            throw new IllegalArgumentException("Order must contain at least one item.");
+        }
 
         // First create the order so we add the persistance to the order items
         Order order = new Order();
@@ -52,10 +61,24 @@ public class OrderService implements IOrderService{
         order.setPickUpDeadline(request.getPickUpDeadline());
         order.setOrderStatus(dev.Silvidar.enums.OrderStatus.PENDING);
 
+        // Fetch all product IDs from the request
+        List<Long> productIds = request.getItems().stream()
+                .map(CreateOrderRequest.OrderItemRequest::getProductId)
+                .toList();
+
+        // Batch fetch all products
+        // We do this so we query the database only once for all products
+        Map<Long, Product> productMap = productRepository.findAllById(productIds).stream()
+                .collect(Collectors.toMap(Product::getId, p -> p));
+
         // Iterate through the items in the request and create OrderItem objects
         for(CreateOrderRequest.OrderItemRequest itemReq : request.getItems()) {
-            Product product = productRepository.findById(itemReq.getProductId())
-                    .orElseThrow(() -> new ProductNotFoundException("Product not found: " + itemReq.getProductId()));
+
+            Product product = productMap.get(itemReq.getProductId());
+
+            if (product == null) {
+                throw new ProductNotFoundException("Product not found: " + itemReq.getProductId());
+            }
 
             OrderItem item = new OrderItem();
 

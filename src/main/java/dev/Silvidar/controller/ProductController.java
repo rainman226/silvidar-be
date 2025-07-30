@@ -58,7 +58,7 @@ public class ProductController {
         return ResponseEntity.ok(product);
     }
 
-    // this won't be used in the future, but it's here for now
+    // TO BE DEPRECATED - use the search endpoint instead
     @GetMapping("/all")
     public ResponseEntity<List<Product>> getAllProducts() {
         List<Product> products = productService.getAllProducts();
